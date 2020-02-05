@@ -26,4 +26,8 @@ public class Player {
     int getElo() {
         return elo;
     }
+
+    void changeElo(final int change) {
+        this.elo += change;
+    }
 }
