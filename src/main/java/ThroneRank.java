@@ -21,13 +21,15 @@ public class ThroneRank {
         for (final Map.Entry<Player, Integer> entry : game.getPoints().entrySet()) {
             final Player player = entry.getKey();
             final float points = entry.getValue();
-            final float expected = getExpectedPoints(player.getElo(), average);
+            final double expected = getExpectedPoints(player.getElo(), average);
             player.changeElo((int) (points - expected) * 10);
         }
     }
 
-    private static float getExpectedPoints(final int elo, final int average) {
-        return 7;
+    static double getExpectedPoints(final int elo, final int average) {
+        final int averageOpponents = (average * 6 - elo) / 5;
+        final double pow = Math.pow(13, (double) (averageOpponents - elo) / 400);
+        return 1 + 12 / (1 + pow);
     }
 
     private static void printRanking() {

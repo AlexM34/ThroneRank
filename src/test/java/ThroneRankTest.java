@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class ThroneRankTest {
     private static Player PlayerA = new Player("A");
     private static Player PlayerB = new Player("B");
@@ -29,12 +31,26 @@ class ThroneRankTest {
     @Test
     void updateEloAllBeginners() {
         ThroneRank.updateElo(GAME1);
-        assert PlayerA.getElo() == 1570;
-        assert PlayerB.getElo() == 1450;
-        assert PlayerC.getElo() == 1490;
-        assert PlayerD.getElo() == 1510;
-        assert PlayerE.getElo() == 1470;
-        assert PlayerF.getElo() == 1530;
+        assertEquals(1570, PlayerA.getElo());
+        assertEquals(1450, PlayerB.getElo());
+        assertEquals(1490, PlayerC.getElo());
+        assertEquals(1510, PlayerD.getElo());
+        assertEquals(1470, PlayerE.getElo());
+        assertEquals(1530, PlayerF.getElo());
     }
 
+    @Test
+    void getExpectedPointsSameElo() {
+        assertEquals(7.0, ThroneRank.getExpectedPoints(1500, 1500));
+    }
+
+    @Test
+    void getExpectedPointsHigherElo() {
+        assertEquals(10.9, ThroneRank.getExpectedPoints(1700, 1500), 0.5);
+    }
+
+    @Test
+    void getExpectedPointsLowerElo() {
+        assertEquals(4.8, ThroneRank.getExpectedPoints(1600, 1700), 0.5);
+    }
 }
